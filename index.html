@@ -12,6 +12,8 @@
             --card: #ffffff; 
             --text-main: #2d3436;
             --text-light: #636e72;
+            --warning-bg: #ffeaa7;
+            --warning-text: #d63031;
         }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
@@ -25,9 +27,27 @@
             text-align: center; 
             color: var(--primary-dark); 
             font-size: 1.8rem;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             letter-spacing: -0.5px;
         }
+        
+        /* NEW: Alert Ribbon Styles */
+        #alertsArea { margin-bottom: 20px; }
+        .alert-ribbon {
+            background-color: var(--warning-bg);
+            color: var(--warning-text);
+            padding: 12px 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-left: 5px solid var(--warning-text);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
         .section { 
             background: var(--card); 
             padding: 20px; 
@@ -136,7 +156,9 @@
 </head>
 <body>
 
-    <h2>Baby Tracker 🍼</h2>
+    <h2>🍼 Baby Tracker 🍼</h2>
+
+    <div id="alertsArea"></div>
 
     <form id="babyForm">
         <div class="section">
@@ -177,7 +199,7 @@
             </div>
             
             <div class="toggle-group" style="margin-bottom: 15px;">
-                <label>Vitamin D taken?</label>
+                <label>Vitamin D Drops?</label>
                 <input type="checkbox" id="vitaminD">
             </div>
 
@@ -240,8 +262,44 @@
             return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
         }
 
+        // NEW: Validates today's entries for reminders
+        function checkDailyGoals() {
+            if (!historyData || historyData.length === 0) return;
+
+            const today = new Date().toDateString();
+            let vitDGiven = false;
+            let tempCount = 0;
+
+            // Loop through all data to find entries made today
+            historyData.forEach(row => {
+                if (!row[0]) return;
+                const entryDate = new Date(row[0]).toDateString();
+                
+                if (entryDate === today) {
+                    if (row[12] === "Yes") vitDGiven = true;
+                    if (row[3] !== undefined && row[3] !== null && row[3].toString().trim() !== "") {
+                        tempCount++;
+                    }
+                }
+            });
+
+            const alertsBox = document.getElementById('alertsArea');
+            let alertsHTML = '';
+
+            if (!vitDGiven) {
+                alertsHTML += `<div class="alert-ribbon"><span>☀️</span> <div><b>Vitamin D:</b> Has not been given yet today.</div></div>`;
+            }
+            if (tempCount < 2) {
+                alertsHTML += `<div class="alert-ribbon"><span>🌡️</span> <div><b>Temperature:</b> Checked ${tempCount}/2 times today.</div></div>`;
+            }
+
+            alertsBox.innerHTML = alertsHTML;
+        }
+
         function renderHistory() {
             const list = document.getElementById('historyList');
+            checkDailyGoals(); // Update ribbons every time history renders
+
             if (!historyData || historyData.length === 0) {
                 list.innerHTML = "<div style='text-align:center; color:#b2bec3; padding: 20px;'>No entries yet.</div>";
                 return;
@@ -271,6 +329,7 @@
                 const resp = await fetch(scriptURL);
                 const data = await resp.json();
                 
+                // We keep up to 30 records cached locally now so it can accurately calculate "today's" stats
                 historyData = data;
                 localStorage.setItem('babyTrackerCache', JSON.stringify(data)); 
                 renderHistory(); 
@@ -312,7 +371,8 @@
             ];
             
             historyData.unshift(mockRow);
-            if (historyData.length > 10) historyData.pop(); 
+            // Increased local limit to 30 so the "today" math has enough data to work with
+            if (historyData.length > 30) historyData.pop(); 
             renderHistory();
 
             document.getElementById('babyForm').reset();
