@@ -5,24 +5,138 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Baby Tracker</title>
     <style>
-        :root { --primary: #6c5ce7; --bg: #f0f2f5; --card: #ffffff; }
-        body { font-family: -apple-system, system-ui; background-color: var(--bg); margin: 0; padding: 15px; color: #2d3436; }
-        .section { background: var(--card); padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .section-title { font-size: 0.8rem; font-weight: bold; color: #b2bec3; text-transform: uppercase; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        label { display: block; font-size: 0.9rem; margin-bottom: 4px; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #dfe6e9; border-radius: 8px; font-size: 16px; box-sizing: border-box; margin-bottom: 5px; }
-        .row { display: flex; gap: 10px; margin-bottom: 10px; }
-        .row > div { flex: 1; }
-        .toggle-group { display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; padding: 10px; border-radius: 8px; margin-bottom: 5px; }
-        .now-btn { background: #e1e5ea; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; width: 100%; cursor: pointer; }
-        button#submitBtn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; margin-top: 10px; }
-        .history-card { background: white; padding: 12px; border-radius: 10px; margin-bottom: 10px; border-left: 5px solid var(--primary); font-size: 0.85rem; }
-        .entry-date { font-weight: bold; color: var(--primary); }
+        :root { 
+            --primary: #74b9ff; 
+            --primary-dark: #0984e3;
+            --bg: #fdfdfd; 
+            --card: #ffffff; 
+            --text-main: #2d3436;
+            --text-light: #636e72;
+        }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg); 
+            margin: 0; 
+            padding: 15px; 
+            color: var(--text-main); 
+            padding-bottom: 50px;
+        }
+        h2 { 
+            text-align: center; 
+            color: var(--primary-dark); 
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+        .section { 
+            background: var(--card); 
+            padding: 20px; 
+            border-radius: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            border: 1px solid #f1f2f6;
+        }
+        .section-title { 
+            font-size: 0.85rem; 
+            font-weight: 700; 
+            color: #b2bec3; 
+            text-transform: uppercase; 
+            margin-bottom: 15px; 
+            letter-spacing: 1px;
+        }
+        label { 
+            display: block; 
+            font-size: 0.9rem; 
+            margin-bottom: 6px; 
+            font-weight: 600; 
+            color: var(--text-main);
+        }
+        input, select, textarea { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #dfe6e9; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+            background: #fcfcfc; 
+            color: var(--text-main);
+            transition: border 0.2s ease;
+            appearance: none;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .row { 
+            display: flex; 
+            gap: 12px; 
+            margin-bottom: 15px; 
+            flex-wrap: wrap; 
+        }
+        .row > div { 
+            flex: 1 1 140px; 
+            min-width: 0; 
+        }
+        .toggle-group { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            background: #f8f9fa; 
+            padding: 12px 15px; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+        }
+        .toggle-group label { margin: 0; }
+        input[type="checkbox"] { 
+            width: 24px; 
+            height: 24px; 
+            appearance: auto; 
+            accent-color: var(--primary-dark);
+        }
+        .now-btn { 
+            background: #f1f2f6; 
+            border: none; 
+            padding: 8px; 
+            border-radius: 8px; 
+            font-size: 12px; 
+            font-weight: 700; 
+            width: 100%; 
+            cursor: pointer; 
+            color: var(--text-light); 
+            margin-top: 6px; 
+        }
+        button#submitBtn { 
+            width: 100%; 
+            padding: 18px; 
+            background: var(--primary-dark); 
+            color: white; 
+            border: none; 
+            border-radius: 16px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            margin-top: 10px;
+            box-shadow: 0 4px 10px rgba(9, 132, 227, 0.3);
+            transition: transform 0.1s ease;
+        }
+        button#submitBtn:active { transform: scale(0.98); }
+        .history-card { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 16px; 
+            margin-bottom: 12px; 
+            border-left: 6px solid var(--primary); 
+            font-size: 0.9rem; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #f1f2f6;
+            color: var(--text-light);
+        }
+        .entry-date { font-weight: bold; color: var(--text-main); margin-bottom: 5px; font-size: 0.95rem; }
+        #syncInfo { text-align: right; font-size: 11px; color: #b2bec3; margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align:center; color:var(--primary)">Baby Tracker 🍼</h2>
+    <h2>Baby Tracker 🍼</h2>
 
     <form id="babyForm">
         <div class="section">
@@ -42,41 +156,76 @@
             <div class="row">
                 <div>
                     <label>Type</label>
-                    <select id="feedType"><option value="">-</option><option value="Breast Milk">Breast Milk</option><option value="Formula">Formula</option></select>
+                    <select id="feedType">
+                        <option value="">-</option>
+                        <option value="Breast Milk">Breast Milk</option>
+                        <option value="Formula">Formula</option>
+                    </select>
                 </div>
-                <div><label>Qty (ml)</label><input type="number" id="feedQty" inputmode="numeric"></div>
+                <div>
+                    <label>Qty (ml)</label>
+                    <input type="text" id="feedQty" inputmode="decimal" placeholder="e.g. 120.5">
+                </div>
             </div>
         </div>
 
         <div class="section">
             <div class="section-title">Health & Pumping</div>
-            <label>Temp</label><input type="number" id="temperature" step="0.1" inputmode="decimal">
-            <div class="toggle-group"><label>Pumping?</label><input type="checkbox" id="pumping" onchange="toggle('pumpArea', this)"></div>
-            <div id="pumpArea" style="display:none;"><label>Pump Qty (ml)</label><input type="number" id="pumpQty" inputmode="numeric"></div>
+            <div style="margin-bottom: 15px;">
+                <label>Temp (°C/°F)</label>
+                <input type="text" id="temperature" inputmode="decimal" placeholder="e.g. 36.5">
+            </div>
+            
+            <div class="toggle-group" style="margin-bottom: 15px;">
+                <label>Vitamin D Drops?</label>
+                <input type="checkbox" id="vitaminD">
+            </div>
+
+            <div class="toggle-group">
+                <label>Pumping?</label>
+                <input type="checkbox" id="pumping" onclick="manualToggle('pumpArea', this)">
+            </div>
+            <div id="pumpArea" style="display:none; margin-top:10px;">
+                <label>Pump Qty (ml)</label>
+                <input type="text" id="pumpQty" inputmode="decimal" placeholder="e.g. 50">
+            </div>
         </div>
 
         <div class="section">
             <div class="section-title">Diaper</div>
-            <div class="toggle-group"><label>Change?</label><input type="checkbox" id="diaperChange" onchange="toggle('diaperArea', this)"></div>
-            <div id="diaperArea" style="display:none; padding-left:15px; border-left:2px solid #ddd;">
-                <div class="toggle-group" style="background:none;"><label>Urine</label><input type="checkbox" id="urine"></div>
-                <div class="toggle-group" style="background:none;"><label>Stools</label><input type="checkbox" id="stools"></div>
+            <div class="toggle-group">
+                <label>Change?</label>
+                <input type="checkbox" id="diaperChange" onclick="manualToggle('diaperArea', this)">
+            </div>
+            <div id="diaperArea" style="display:none; padding-left:15px; border-left:3px solid #f1f2f6; margin-top:10px;">
+                <div class="toggle-group" style="background:none; padding: 5px 0;"><label>Urine</label><input type="checkbox" id="urine"></div>
+                <div class="toggle-group" style="background:none; padding: 5px 0;"><label>Stools</label><input type="checkbox" id="stools"></div>
             </div>
         </div>
 
-        <div class="section"><label>Notes</label><textarea id="comments" rows="2"></textarea></div>
+        <div class="section">
+            <div class="section-title">Notes</div>
+            <textarea id="comments" rows="2" placeholder="Any details..."></textarea>
+        </div>
+        
         <button type="button" id="submitBtn" onclick="submitData()">Save Entry</button>
     </form>
 
-    <div style="margin-top: 30px;">
+    <div style="margin-top: 40px;">
         <div class="section-title">Shared History</div>
-        <div id="historyList">Loading...</div>
+        <div id="syncInfo">Checking cache...</div>
+        <div id="historyList"></div>
     </div>
 
     <script>
+        // PASTE YOUR GOOGLE SCRIPT URL HERE
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwfJ77Zx4lGFo7ffrdvYmfPVtnKzwTH23wbYNXkN1sC9z-W0Du_IjRNGLJGp2bYhuBL1w/exec';
+        
+        let historyData = [];
 
-        function toggle(id, el) { document.getElementById(id).style.display = el.checked ? 'block' : 'none'; }
+        function manualToggle(id, checkbox) {
+            document.getElementById(id).style.display = checkbox.checked ? 'block' : 'none';
+        }
 
         function setNow(id) {
             const now = new Date();
@@ -87,51 +236,103 @@
         function formatDate(dateStr) {
             if (!dateStr || dateStr === "-") return "-";
             const d = new Date(dateStr);
-            return `${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getFullYear()).slice(-2)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+            const pad = (n) => String(n).padStart(2, '0');
+            return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (!historyData || historyData.length === 0) {
+                list.innerHTML = "<div style='text-align:center; color:#b2bec3; padding: 20px;'>No entries yet.</div>";
+                return;
+            }
+            list.innerHTML = historyData.map(row => `
+                <div class="history-card">
+                    <div class="entry-date">${formatDate(row[0])}</div>
+                    ${row[4] ? `<div>🍼 <b>${row[4]}</b>: ${row[5]}ml</div>` : ''}
+                    ${row[1] ? `<div>🕒 ${formatDate(row[1])} - ${formatDate(row[2])}</div>` : ''}
+                    ${row[3] ? `<div>🌡️ Temp: ${row[3]}°</div>` : ''}
+                    ${row[12] === "Yes" ? `<div>☀️ <b>Vitamin D:</b> Given</div>` : ''}
+                    ${row[6] === "Yes" ? `<div>💧 <b>Pumped:</b> ${row[7]}ml</div>` : ''}
+                    ${row[8] === "Yes" ? `<div>🧷 Diaper: ${row[9] === "Yes" ? 'Urine ' : ''}${row[10] === "Yes" ? 'Stools' : ''}</div>` : ''}
+                    ${row[11] ? `<div style="margin-top:8px; font-style:italic; color:#2d3436;">"${row[11]}"</div>` : ''}
+                </div>`).join('');
         }
 
         async function loadHistory() {
+            const cachedData = localStorage.getItem('babyTrackerCache');
+            if (cachedData) {
+                historyData = JSON.parse(cachedData);
+                renderHistory();
+            }
+
             try {
+                document.getElementById('syncInfo').innerHTML = 'Syncing...';
                 const resp = await fetch(scriptURL);
                 const data = await resp.json();
-                document.getElementById('historyList').innerHTML = data.map(row => `
-                    <div class="history-card">
-                        <div class="entry-date">${formatDate(row[0])}</div>
-                        ${row[4] ? `<div>🍼 <b>${row[4]}</b>: ${row[5]}ml</div>` : ''}
-                        ${row[1] ? `<div style="font-size:0.75rem; color:#666;">🕒 ${formatDate(row[1])} - ${formatDate(row[2])}</div>` : ''}
-                        ${row[3] ? `<div>🌡️ Temp: ${row[3]}°</div>` : ''}
-                        ${row[6] === "Yes" ? `<div>⛽ Pumped: ${row[7]}ml</div>` : ''}
-                        ${row[8] === "Yes" ? `<div>🧷 Diaper: ${row[9] === "Yes" ? 'Urine ' : ''}${row[10] === "Yes" ? 'Stools' : ''}</div>` : ''}
-                        ${row[11] ? `<div style="margin-top:5px; font-style:italic;">"${row[11]}"</div>` : ''}
-                    </div>`).join('');
-            } catch (e) { document.getElementById('historyList').innerHTML = "Tap 'Save' to refresh history."; }
+                
+                historyData = data;
+                localStorage.setItem('babyTrackerCache', JSON.stringify(data)); 
+                renderHistory(); 
+                
+                document.getElementById('syncInfo').innerHTML = `Live sync complete at ${formatDate(new Date())}`;
+            } catch (e) {
+                document.getElementById('syncInfo').innerHTML = "Showing offline cache.";
+            }
         }
 
-        async function submitData() {
+        function submitData() {
             const btn = document.getElementById('submitBtn');
-            btn.disabled = true; btn.innerText = "Saving...";
+            
+            const safeQty = document.getElementById('feedQty').value.replace(',', '.');
+            const safeTemp = document.getElementById('temperature').value.replace(',', '.');
+            const safePumpQty = document.getElementById('pumpQty').value.replace(',', '.');
+
             const payload = {
                 feedStart: document.getElementById('feedStart').value,
                 feedEnd: document.getElementById('feedEnd').value,
-                temperature: document.getElementById('temperature').value,
+                temperature: safeTemp,
                 feedType: document.getElementById('feedType').value,
-                feedQty: document.getElementById('feedQty').value,
+                feedQty: safeQty,
                 pumping: document.getElementById('pumping').checked ? "Yes" : "No",
-                pumpQty: document.getElementById('pumpQty').value,
+                pumpQty: safePumpQty,
                 diaperChange: document.getElementById('diaperChange').checked ? "Yes" : "No",
                 urine: document.getElementById('urine').checked ? "Yes" : "No",
                 stools: document.getElementById('stools').checked ? "Yes" : "No",
-                comments: document.getElementById('comments').value
+                comments: document.getElementById('comments').value,
+                vitaminD: document.getElementById('vitaminD').checked ? "Yes" : "No"
             };
 
-            try {
-                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                document.getElementById('babyForm').reset();
-                toggle('pumpArea', {checked: false}); toggle('diaperArea', {checked: false});
-                setTimeout(loadHistory, 2000);
-            } catch (e) { alert("Error saving."); }
-            finally { btn.disabled = false; btn.innerText = "Save Entry"; }
+            const mockRow = [
+                new Date().toISOString(), 
+                payload.feedStart, payload.feedEnd, payload.temperature,
+                payload.feedType, payload.feedQty, payload.pumping,
+                payload.pumpQty, payload.diaperChange, payload.urine,
+                payload.stools, payload.comments, payload.vitaminD
+            ];
+            
+            historyData.unshift(mockRow);
+            if (historyData.length > 10) historyData.pop(); 
+            renderHistory();
+
+            document.getElementById('babyForm').reset();
+            document.getElementById('pumpArea').style.display = 'none';
+            document.getElementById('diaperArea').style.display = 'none';
+            
+            btn.innerText = "Saved!";
+            btn.style.background = "#00b894"; 
+            
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
+                .then(() => {
+                    loadHistory(); 
+                }).catch(e => console.error("Background sync failed", e));
+            
+            setTimeout(() => {
+                btn.innerText = "Save Entry";
+                btn.style.background = "var(--primary-dark)";
+            }, 2000);
         }
+
         window.onload = loadHistory;
     </script>
 </body>
